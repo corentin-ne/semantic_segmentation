@@ -1,0 +1,24 @@
+# Recommended: best accuracy / cost trade-off (~3.7M params).
+data:
+  dataset: voc
+  train_split: trainaug     # VOC train + SBD (10 582 images); use "train" if SBD is unavailable
+  crop_size: 512
+  num_workers: 8
+model:
+  name: deeplabv3plus_mobilenet
+  pretrained: imagenet
+optim:
+  optimizer: adamw
+  lr: 6.0e-4
+  backbone_lr_mult: 0.1
+  weight_decay: 1.0e-4
+  scheduler: poly
+  warmup_epochs: 1
+loss:
+  name: ohem
+train:
+  epochs: 60
+  batch_size: 16
+  amp: true
+  ema: true
+  patience: 15

@@ -1,0 +1,16 @@
+# U-Net successor of the 2023 DeconvMobileUNet.
+data:
+  dataset: voc
+  train_split: trainaug
+  crop_size: 512
+  num_workers: 8
+model:
+  name: mobile_unet
+  pretrained: imagenet
+optim:
+  lr: 6.0e-4
+loss:
+  name: ce_dice
+train:
+  epochs: 60
+  batch_size: 16

@@ -1,0 +1,50 @@
+{
+  "name": "lraspp_mobilenet-synthetic-20261014-140021",
+  "status": "finished",
+  "started_at": 1791986421.4352207,
+  "model": "lraspp_mobilenet",
+  "dataset": "synthetic",
+  "class_names": [
+    "background",
+    "circle",
+    "square",
+    "triangle",
+    "star",
+    "ring"
+  ],
+  "params_m": 3.219,
+  "gflops": 0.39,
+  "gflops_size": 160,
+  "device": "cpu",
+  "epochs": 12,
+  "amp": "fp32",
+  "train_images": 1200,
+  "val_images": 200,
+  "updated_at": 1791986792.6864362,
+  "best": {
+    "epoch": 12,
+    "train_loss": 0.1500043123960495,
+    "train_time_s": 29.64,
+    "train_img_per_s": 40.49,
+    "lr": 0.0,
+    "mIoU": 0.7248964008889671,
+    "pixel_acc": 0.969153515625,
+    "mean_acc": 0.8240502052750737,
+    "fwIoU": 0.9451245565333178,
+    "mDice": 0.8308013876043571,
+    "per_class_iou": [
+      0.97763,
+      0.83137,
+      0.81562,
+      0.54903,
+      0.5847,
+      0.59101
+    ],
+    "val_loss": 0.08745401203632355,
+    "val_time_s": 1.33
+  },
+  "epoch": 12,
+  "best_mIoU": 0.7248964008889671,
+  "best_epoch": 12,
+  "finished_at": 1791986792.686434
+}

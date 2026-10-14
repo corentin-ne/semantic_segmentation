@@ -1,0 +1,50 @@
+{
+  "name": "deeplabv3plus_mobilenet-synthetic-20261014-134348",
+  "status": "finished",
+  "started_at": 1791985428.051739,
+  "model": "deeplabv3plus_mobilenet",
+  "dataset": "synthetic",
+  "class_names": [
+    "background",
+    "circle",
+    "square",
+    "triangle",
+    "star",
+    "ring"
+  ],
+  "params_m": 3.746,
+  "gflops": 0.62,
+  "gflops_size": 160,
+  "device": "cpu",
+  "epochs": 12,
+  "amp": "fp32",
+  "train_images": 1200,
+  "val_images": 200,
+  "updated_at": 1791985996.2313573,
+  "best": {
+    "epoch": 12,
+    "train_loss": 0.23404359817504883,
+    "train_time_s": 42.78,
+    "train_img_per_s": 28.05,
+    "lr": 0.0,
+    "mIoU": 0.42101347950761586,
+    "pixel_acc": 0.927719140625,
+    "mean_acc": 0.5301610153567046,
+    "fwIoU": 0.8907401194929397,
+    "mDice": 0.5393503415153124,
+    "per_class_iou": [
+      0.97617,
+      0.16899,
+      0.47125,
+      0.13201,
+      0.23732,
+      0.54033
+    ],
+    "val_loss": 0.20386007577180862,
+    "val_time_s": 2.26
+  },
+  "epoch": 12,
+  "best_mIoU": 0.42101347950761586,
+  "best_epoch": 12,
+  "finished_at": 1791985996.2313552
+}

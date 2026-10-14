@@ -1,0 +1,50 @@
+{
+  "name": "deconv_mobilenet-synthetic-20261014-140637",
+  "status": "finished",
+  "started_at": 1791986797.1891158,
+  "model": "deconv_mobilenet",
+  "dataset": "synthetic",
+  "class_names": [
+    "background",
+    "circle",
+    "square",
+    "triangle",
+    "star",
+    "ring"
+  ],
+  "params_m": 12.622,
+  "gflops": 2.4,
+  "gflops_size": 160,
+  "device": "cpu",
+  "epochs": 12,
+  "amp": "fp32",
+  "train_images": 1200,
+  "val_images": 200,
+  "updated_at": 1791987267.7248998,
+  "best": {
+    "epoch": 12,
+    "train_loss": 0.3855324685573578,
+    "train_time_s": 37.25,
+    "train_img_per_s": 32.22,
+    "lr": 0.0,
+    "mIoU": 0.23193753136782105,
+    "pixel_acc": 0.901734765625,
+    "mean_acc": 0.3028417705140585,
+    "fwIoU": 0.8319274050887449,
+    "mDice": 0.2675145813212885,
+    "per_class_iou": [
+      0.93425,
+      0.00494,
+      0.4464,
+      0.0,
+      0.00603,
+      0.0
+    ],
+    "val_loss": 0.2692609876394272,
+    "val_time_s": 2.08
+  },
+  "epoch": 12,
+  "best_mIoU": 0.23193753136782105,
+  "best_epoch": 12,
+  "finished_at": 1791987267.7248967
+}

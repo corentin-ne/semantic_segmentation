@@ -1,0 +1,19 @@
+# Accuracy reference (~27M params). Needs a GPU with >= 12 GB for batch 16 at 512 px.
+data:
+  dataset: voc
+  train_split: trainaug
+  crop_size: 512
+  num_workers: 8
+model:
+  name: deeplabv3plus_resnet50
+  pretrained: imagenet
+optim:
+  optimizer: sgd
+  lr: 0.01
+  weight_decay: 1.0e-4
+  backbone_lr_mult: 1.0
+loss:
+  name: ohem
+train:
+  epochs: 50
+  batch_size: 16

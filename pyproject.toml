@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "semseg"
+version = "2.0.0"
+description = "Efficient semantic segmentation on Pascal VOC — DeepLabV3+, MobileUNet, LR-ASPP — with a training dashboard"
+authors = [{ name = "Corentin Nivelet" }, { name = "Thomas Renaud" }]
+requires-python = ">=3.10"
+dependencies = ["torch>=2.3", "torchvision>=0.18", "numpy>=1.24", "pillow>=10.0", "pyyaml>=6.0"]
+
+[project.optional-dependencies]
+dashboard = ["streamlit>=1.37", "plotly>=5.20", "pandas>=2.0"]
+export = ["onnx>=1.15"]
+wandb = ["wandb>=0.16"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+semseg = "semseg.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["semseg*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::UserWarning"]
