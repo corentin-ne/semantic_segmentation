@@ -1,0 +1,16 @@
+# Fastest model, fine-tuned from torchvision COCO weights restricted to the 20 VOC classes.
+data:
+  dataset: voc
+  train_split: trainaug
+  crop_size: 512
+  num_workers: 8
+model:
+  name: lraspp_mobilenet
+  pretrained: coco_voc
+optim:
+  lr: 2.0e-4
+  backbone_lr_mult: 0.5
+  warmup_epochs: 0.5
+train:
+  epochs: 20
+  batch_size: 16

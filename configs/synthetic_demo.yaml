@@ -1,0 +1,24 @@
+# Offline demo / CI: procedural shapes, runs on a laptop CPU in a few minutes.
+data:
+  dataset: synthetic
+  crop_size: 128
+  scale_range: [0.75, 1.25]
+  eval_size: 160
+  synthetic_train: 1200
+  synthetic_val: 200
+  synthetic_size: 160
+  num_workers: 2
+model:
+  name: deeplabv3plus_mobilenet
+  pretrained: none
+optim:
+  lr: 2.0e-3
+  backbone_lr_mult: 1.0
+  warmup_epochs: 0.5
+train:
+  epochs: 12
+  batch_size: 16
+  eval_batch_size: 20
+  log_every: 10
+  ema_decay: 0.998
+  patience: 0

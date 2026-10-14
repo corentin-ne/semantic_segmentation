@@ -1,0 +1,25 @@
+# The December 2023 setup (DeconvMobileNet, SGD, 224 px, batch 12), re-run in the new pipeline.
+data:
+  dataset: voc
+  train_split: train
+  crop_size: 224
+  scale_range: [0.875, 1.25]
+  color_jitter: 0.0
+  num_workers: 4
+model:
+  name: deconv_mobilenet
+  pretrained: imagenet
+optim:
+  optimizer: sgd
+  lr: 0.01
+  momentum: 0.9
+  weight_decay: 5.0e-4
+  backbone_lr_mult: 1.0
+  scheduler: constant
+  warmup_epochs: 0
+train:
+  epochs: 90
+  batch_size: 12
+  ema: false
+  amp: false
+  patience: 0
