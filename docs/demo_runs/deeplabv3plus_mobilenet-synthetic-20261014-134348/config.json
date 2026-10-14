@@ -1,0 +1,71 @@
+{
+  "data": {
+    "dataset": "synthetic",
+    "root": "./data",
+    "year": "2012",
+    "train_split": "train",
+    "val_split": "val",
+    "download": true,
+    "crop_size": 128,
+    "scale_range": [
+      0.75,
+      1.25
+    ],
+    "hflip": 0.5,
+    "color_jitter": 0.2,
+    "eval_size": 160,
+    "num_workers": 2,
+    "synthetic_train": 1200,
+    "synthetic_val": 200,
+    "synthetic_size": 160
+  },
+  "model": {
+    "name": "deeplabv3plus_mobilenet",
+    "pretrained": "none",
+    "num_classes": 6,
+    "kwargs": {}
+  },
+  "optim": {
+    "optimizer": "adamw",
+    "lr": 0.002,
+    "backbone_lr_mult": 1.0,
+    "weight_decay": 0.0001,
+    "momentum": 0.9,
+    "scheduler": "poly",
+    "poly_power": 0.9,
+    "warmup_epochs": 0.5,
+    "grad_clip": 5.0
+  },
+  "loss": {
+    "name": "ce",
+    "label_smoothing": 0.0,
+    "ohem_thresh": 0.7,
+    "ohem_min_kept": 100000,
+    "dice_weight": 0.5,
+    "ignore_index": 255
+  },
+  "train": {
+    "epochs": 12,
+    "batch_size": 16,
+    "eval_batch_size": 20,
+    "accumulate_steps": 1,
+    "amp": true,
+    "channels_last": true,
+    "compile": false,
+    "ema": true,
+    "ema_decay": 0.998,
+    "eval_every": 1,
+    "patience": 0,
+    "seed": 42,
+    "device": "auto",
+    "log_every": 10,
+    "num_samples": 6,
+    "resume": ""
+  },
+  "logging": {
+    "runs_dir": "/tmp/claude-0/-home-user-semantic-segmentation/37344dfc-3ed3-554b-987a-dcee4c20bd6a/scratchpad/demo_runs",
+    "run_name": "",
+    "wandb": false,
+    "wandb_project": "semantic-segmentation"
+  }
+}

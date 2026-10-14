@@ -1,0 +1,50 @@
+{
+  "name": "mobile_unet-synthetic-20261014-135320",
+  "status": "finished",
+  "started_at": 1791986000.5363262,
+  "model": "mobile_unet",
+  "dataset": "synthetic",
+  "class_names": [
+    "background",
+    "circle",
+    "square",
+    "triangle",
+    "star",
+    "ring"
+  ],
+  "params_m": 3.318,
+  "gflops": 0.36,
+  "gflops_size": 160,
+  "device": "cpu",
+  "epochs": 12,
+  "amp": "fp32",
+  "train_images": 1200,
+  "val_images": 200,
+  "updated_at": 1791986417.070561,
+  "best": {
+    "epoch": 12,
+    "train_loss": 0.25475457310676575,
+    "train_time_s": 30.94,
+    "train_img_per_s": 38.78,
+    "lr": 0.0,
+    "mIoU": 0.46177903416577964,
+    "pixel_acc": 0.93131171875,
+    "mean_acc": 0.5832345585144091,
+    "fwIoU": 0.8960336486941877,
+    "mDice": 0.5924684963284624,
+    "per_class_iou": [
+      0.97521,
+      0.31114,
+      0.45324,
+      0.14618,
+      0.3438,
+      0.54111
+    ],
+    "val_loss": 0.1717589467763901,
+    "val_time_s": 2.2
+  },
+  "epoch": 12,
+  "best_mIoU": 0.46177903416577964,
+  "best_epoch": 12,
+  "finished_at": 1791986417.0705585
+}

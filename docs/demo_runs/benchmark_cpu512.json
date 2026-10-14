@@ -1,0 +1,92 @@
+{
+  "device": "cpu",
+  "size": 512,
+  "torch": "2.14.1+cu130",
+  "threads": 4,
+  "results": [
+    {
+      "model": "deconv_mobilenet",
+      "family": "legacy",
+      "params_m": 12.623,
+      "gflops": 24.576,
+      "latency_ms": 84.683,
+      "p90_ms": 105.468,
+      "fps": 11.809,
+      "device": "cpu",
+      "batch": 1,
+      "size": 512
+    },
+    {
+      "model": "mobile_unet",
+      "family": "unet",
+      "params_m": 3.318,
+      "gflops": 3.748,
+      "latency_ms": 64.244,
+      "p90_ms": 73.271,
+      "fps": 15.566,
+      "device": "cpu",
+      "batch": 1,
+      "size": 512
+    },
+    {
+      "model": "deeplabv3plus_mobilenet",
+      "family": "deeplab",
+      "params_m": 3.748,
+      "gflops": 6.387,
+      "latency_ms": 77.075,
+      "p90_ms": 88.127,
+      "fps": 12.974,
+      "device": "cpu",
+      "batch": 1,
+      "size": 512
+    },
+    {
+      "model": "deeplabv3plus_resnet50",
+      "family": "deeplab",
+      "params_m": 26.696,
+      "gflops": 75.374,
+      "latency_ms": 290.484,
+      "p90_ms": 323.449,
+      "fps": 3.443,
+      "device": "cpu",
+      "batch": 1,
+      "size": 512
+    },
+    {
+      "model": "lraspp_mobilenet",
+      "family": "torchvision",
+      "params_m": 3.222,
+      "gflops": 3.949,
+      "latency_ms": 47.273,
+      "p90_ms": 52.13,
+      "fps": 21.154,
+      "device": "cpu",
+      "batch": 1,
+      "size": 512
+    },
+    {
+      "model": "deeplabv3_mobilenet",
+      "family": "torchvision",
+      "params_m": 11.025,
+      "gflops": 19.652,
+      "latency_ms": 67.542,
+      "p90_ms": 77.691,
+      "fps": 14.806,
+      "device": "cpu",
+      "batch": 1,
+      "size": 512
+    },
+    {
+      "model": "deeplabv3_resnet50",
+      "family": "torchvision",
+      "params_m": 39.639,
+      "gflops": 327.159,
+      "latency_ms": 803.889,
+      "p90_ms": 939.947,
+      "fps": 1.244,
+      "device": "cpu",
+      "batch": 1,
+      "size": 512
+    }
+  ]
+}

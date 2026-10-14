@@ -130,7 +130,7 @@ def view_overview(runs: list[dict]) -> None:
         c[3].metric("Images (train / val)",
                     f"{best['summary'].get('train_images', '?')} / {best['summary'].get('val_images', '?')}")
     st.dataframe(
-        runs_table(runs), hide_index=True, use_container_width=True,
+        runs_table(runs), hide_index=True, width="stretch",
         column_config={
             "Meilleur mIoU": st.column_config.ProgressColumn(format="%.3f", min_value=0, max_value=1),
             "Pixel acc": st.column_config.NumberColumn(format="%.3f"),
@@ -155,7 +155,7 @@ def view_training(runs: list[dict]) -> None:
                 fig.add_scatter(x=r["metrics"]["epoch"], y=r["metrics"][metric], mode="lines+markers", name=r["name"])
         fig.update_layout(title=METRIC_LABELS[metric], xaxis_title="époque", showlegend=True,
                           legend=dict(orientation="h", y=-0.25), **PLOT)
-        col.plotly_chart(fig, use_container_width=True)
+        col.plotly_chart(fig, width="stretch")
 
     steps = [r for r in runs if not r["steps"].empty]
     if steps:
@@ -167,7 +167,7 @@ def view_training(runs: list[dict]) -> None:
                             mode="lines", name=r["name"])
         fig.update_layout(title="Loss d'entraînement (par itération)", xaxis_title="époque",
                           yaxis_type="log", legend=dict(orientation="h", y=-0.25), **PLOT)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
 
 
 def view_results(runs: list[dict]) -> None:
@@ -175,7 +175,9 @@ def view_results(runs: list[dict]) -> None:
     if not candidates:
         st.info("Pas encore de résultats.")
         return
-    run = st.selectbox("Run", candidates, format_func=lambda r: r["name"])
+    by_name = {r["name"]: r for r in candidates}
+    names = sorted(by_name, key=lambda n: by_name[n]["summary"].get("best_mIoU") or 0, reverse=True)
+    run = by_name[st.selectbox("Run", names, key="results_run")]
     names = run["summary"].get("class_names") or []
     best = run["summary"].get("best", {})
     if best:
@@ -188,11 +190,11 @@ def view_results(runs: list[dict]) -> None:
     per_class = best.get("per_class_iou")
     if per_class and names:
         df = pd.DataFrame({"classe": names, "IoU": per_class}).dropna().sort_values("IoU")
-        fig = px.bar(df, x="IoU", y="classe", orientation="h", range_x=[0, 1], color="IoU",
-                     color_continuous_scale="Tealgrn")
-        fig.update_layout(title="IoU par classe (meilleur checkpoint)", coloraxis_showscale=False,
+        fig = px.bar(df, x="IoU", y="classe", orientation="h", range_x=[0, 1], text="IoU")
+        fig.update_traces(marker_color="#0f766e", texttemplate="%{text:.2f}")
+        fig.update_layout(title="IoU par classe (meilleur checkpoint)",
                           **{**PLOT, "height": max(320, 22 * len(df))})
-        c1.plotly_chart(fig, use_container_width=True)
+        c1.plotly_chart(fig, width="stretch")
     if run["confusion"] and names:
         cm = np.asarray(run["confusion"], dtype=float)
         norm = cm / np.maximum(cm.sum(1, keepdims=True), 1)
@@ -200,13 +202,13 @@ def view_results(runs: list[dict]) -> None:
                         labels=dict(x="prédiction", y="vérité terrain", color="taux"))
         fig.update_layout(title="Matrice de confusion (normalisée par ligne)",
                           **{**PLOT, "height": max(360, 22 * len(names) + 120)})
-        c2.plotly_chart(fig, use_container_width=True)
+        c2.plotly_chart(fig, width="stretch")
 
     if run["samples"]:
         idx = st.select_slider("Prédictions sur la validation — époque", options=list(range(len(run["samples"]))),
                                value=len(run["samples"]) - 1,
                                format_func=lambda i: Path(run["samples"][i]).stem.split("_")[1].lstrip("0"))
-        st.image(run["samples"][idx], use_container_width=False)
+        st.image(run["samples"][idx], width="content")
 
 
 def view_compare(runs: list[dict], runs_dir: str) -> None:
@@ -215,7 +217,7 @@ def view_compare(runs: list[dict], runs_dir: str) -> None:
         fig = px.scatter(table, x="GFLOPs", y="Meilleur mIoU", size="Params (M)", color="Modèle",
                          hover_name="Run", size_max=40)
         fig.update_layout(title="Précision vs coût de calcul (taille = paramètres)", **PLOT)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width="stretch")
     bench = load_benchmarks(runs_dir)
     if bench.empty:
         st.info("Lance `python -m semseg benchmark --output runs/benchmark.json` pour mesurer la latence de chaque modèle.")
@@ -226,12 +228,12 @@ def view_compare(runs: list[dict], runs_dir: str) -> None:
     fig = px.bar(b, x="latency_ms", y="model", orientation="h", color="family", text="latency_ms")
     fig.update_traces(texttemplate="%{text:.0f} ms")
     fig.update_layout(title="Latence (médiane, batch 1)", **PLOT)
-    c1.plotly_chart(fig, use_container_width=True)
+    c1.plotly_chart(fig, width="stretch")
     fig = px.scatter(b, x="gflops", y="params_m", text="model", color="family", log_x=True)
     fig.update_traces(textposition="top center")
     fig.update_layout(title="GFLOPs vs paramètres (M)", **PLOT)
-    c2.plotly_chart(fig, use_container_width=True)
-    st.dataframe(b.drop(columns=["source"]), hide_index=True, use_container_width=True)
+    c2.plotly_chart(fig, width="stretch")
+    st.dataframe(b.drop(columns=["source"]), hide_index=True, width="stretch")
 
 
 def view_playground(runs: list[dict]) -> None:
@@ -241,7 +243,10 @@ def view_playground(runs: list[dict]) -> None:
     if not ready:
         st.info("Aucun checkpoint disponible : entraîne un modèle d'abord.")
         return
-    run = st.selectbox("Modèle entraîné", ready, format_func=lambda r: f"{r['name']}  (mIoU {r['summary'].get('best_mIoU', 0):.3f})")
+    by_name = {r["name"]: r for r in ready}
+    names = sorted(by_name, key=lambda n: by_name[n]["summary"].get("best_mIoU") or 0, reverse=True)
+    run = by_name[st.selectbox("Modèle entraîné", names, key="demo_run",
+                               format_func=lambda n: f"{n}  (mIoU {by_name[n]['summary'].get('best_mIoU', 0):.3f})")]
     predictor = get_predictor(run["checkpoint"])
     c1, c2, c3 = st.columns([2, 1, 1])
     upload = c1.file_uploader("Image", type=["jpg", "jpeg", "png", "webp"])
@@ -260,16 +265,16 @@ def view_playground(runs: list[dict]) -> None:
     rgb = np.asarray(image)
     color = colorize(labels, predictor.palette)
     c1, c2, c3 = st.columns(3)
-    c1.image(rgb, caption="Image", use_container_width=True)
-    c2.image(overlay(rgb, color, alpha), caption="Segmentation", use_container_width=True)
-    c3.image((conf * 255).astype(np.uint8), caption="Confiance (blanc = sûr)", use_container_width=True)
+    c1.image(rgb, caption="Image", width="stretch")
+    c2.image(overlay(rgb, color, alpha), caption="Segmentation", width="stretch")
+    c3.image((conf * 255).astype(np.uint8), caption="Confiance (blanc = sûr)", width="stretch")
     ids, counts = np.unique(labels, return_counts=True)
     df = pd.DataFrame({"classe": [predictor.class_names[i] for i in ids], "% pixels": counts / counts.sum() * 100,
                        "couleur": [f"rgb{tuple(int(v) for v in predictor.palette[i])}" for i in ids]})
     fig = px.bar(df.sort_values("% pixels"), x="% pixels", y="classe", orientation="h")
     fig.update_traces(marker_color=df.sort_values("% pixels")["couleur"].tolist())
     fig.update_layout(title="Classes détectées", **{**PLOT, "height": 80 + 30 * len(df)})
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 
 # ---------------------------------------------------------------- page

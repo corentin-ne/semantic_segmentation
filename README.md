@@ -21,6 +21,9 @@ python -m semseg train -c configs/deeplabv3plus_mobilenet.yaml
 
 # dashboard
 streamlit run dashboard/app.py -- --runs runs
+
+# dashboard sur les runs de démo fournis (sans rien entraîner)
+streamlit run dashboard/app.py -- --runs docs/demo_runs
 ```
 
 Sur Colab : [`notebooks/train_colab.ipynb`](notebooks/train_colab.ipynb).
@@ -42,6 +45,33 @@ les GFLOPs et la latence (résultats affichés dans l'onglet *Comparaison* du da
 Les modèles torchvision acceptent `model.pretrained: coco_voc` : poids COCO restreints aux 20
 classes VOC, le meilleur point de départ pour un fine-tuning court
 (voir `configs/lraspp_mobilenet_coco.yaml`).
+
+## Mesures
+
+Benchmark CPU (4 threads, image 512×512, batch 1, PyTorch 2.14), `python -m semseg benchmark` :
+
+| Modèle | Params | GFLOPs | Latence CPU |
+|---|---:|---:|---:|
+| `lraspp_mobilenet` | 3.2 M | 3.9 | 47 ms |
+| `mobile_unet` | 3.3 M | 3.7 | 64 ms |
+| `deeplabv3_mobilenet` | 11.0 M | 19.7 | 68 ms |
+| `deeplabv3plus_mobilenet` | 3.7 M | 6.4 | 77 ms |
+| `deconv_mobilenet` (2023) | 12.6 M | 24.6 | 85 ms |
+| `deeplabv3plus_resnet50` | 26.7 M | 75.4 | 291 ms |
+| `deeplabv3_resnet50` | 39.6 M | 327.2 | 804 ms |
+
+Entraînement de démo sur le dataset synthétique (`configs/synthetic_demo.yaml`) : CPU, sans poids
+pré-entraînés, 12 époques, 1 200 images. Les runs sont dans [`docs/demo_runs/`](docs/demo_runs/).
+
+| Modèle | mIoU val | Pixel acc |
+|---|---:|---:|
+| `lraspp_mobilenet` | 72.5 % | 96.9 % |
+| `mobile_unet` | 46.2 % | 93.1 % |
+| `deeplabv3plus_mobilenet` | 42.1 % | 92.8 % |
+| `deconv_mobilenet` (2023) | 23.2 % | 90.2 % |
+
+Ces chiffres valident le pipeline, ce ne sont pas des scores VOC. Les scores VOC s'obtiennent
+avec les configs `configs/*.yaml` sur GPU, avec les poids ImageNet ou COCO.
 
 ## Ce qui a changé par rapport à 2023
 
